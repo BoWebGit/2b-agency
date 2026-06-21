@@ -13,14 +13,16 @@ export function Marquee() {
   const track = [...words, ...words];
 
   return (
-    <div className="marquee" aria-hidden="true">
-      <div className="marquee__track">
-        {track.map((word, i) => (
-          <span key={`word-${i}`} style={{ display: "contents" }}>
-            <span>{word}</span>
-            <i>✳</i>
-          </span>
-        ))}
+    <div className="marquee-wrap">
+      <div className="marquee" aria-hidden="true">
+        <div className="marquee__track">
+          {track.map((word, i) => (
+            <span key={`word-${i}`} style={{ display: "contents" }}>
+              <span>{word}</span>
+              <i>✳</i>
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );

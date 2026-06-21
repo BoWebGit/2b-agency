@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "@/styles/globals.css";
+import { CalculatorProvider } from "@/components/CalculatorProvider";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
 
 export const metadata: Metadata = {
@@ -44,7 +45,9 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <CalculatorProvider>{children}</CalculatorProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

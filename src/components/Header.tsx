@@ -6,6 +6,7 @@ import { useHeaderOffsetScroll } from "@/hooks/useHeaderOffsetScroll";
 import { useHeaderScroll } from "@/hooks/useHeaderScroll";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { useCalculator } from "./CalculatorProvider";
 import { ArrowIcon } from "./icons";
 import { LangToggle } from "./LangToggle";
 import { MobileMenu } from "./MobileMenu";
@@ -16,6 +17,7 @@ export function Header() {
   const scrolled = useHeaderScroll(40);
   const handleAnchorClick = useHeaderOffsetScroll();
   const reducedMotion = useReducedMotion();
+  const { openCalculator } = useCalculator();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navItems: Array<{ href: string; label: string }> = [
@@ -64,16 +66,16 @@ export function Header() {
           <div className="header-actions">
             <LangToggle />
 
-            <a
-              href="/#contacts"
+            <button
+              type="button"
               className="btn btn-primary header-cta"
-              onClick={handleAnchorClick}
+              onClick={openCalculator}
             >
               <span>{t.headerCta}</span>
               <span className="btn-ico" aria-hidden="true">
                 <ArrowIcon />
               </span>
-            </a>
+            </button>
 
             <button
               type="button"

@@ -6,6 +6,7 @@ import { useHeaderOffsetScroll } from "@/hooks/useHeaderOffsetScroll";
 import { useHeroParallax } from "@/hooks/useHeroParallax";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { useCalculator } from "./CalculatorProvider";
 import { ArrowIcon } from "./icons";
 
 /**
@@ -17,6 +18,7 @@ import { ArrowIcon } from "./icons";
 export function Hero({ heroRevealed }: { heroRevealed: boolean }) {
   const { t } = useLanguage();
   const handleAnchorClick = useHeaderOffsetScroll();
+  const { openCalculator } = useCalculator();
   const parallaxRef = useHeroParallax<HTMLDivElement>();
   const reducedMotion = useReducedMotion();
   const [imgError, setImgError] = useState(false);
@@ -76,16 +78,16 @@ export function Hero({ heroRevealed }: { heroRevealed: boolean }) {
           </p>
 
           <div className="hero-cta" data-reveal ref={setRevealRef(2)}>
-            <a
-              href="#contacts"
+            <button
+              type="button"
               className="btn btn-primary"
-              onClick={handleAnchorClick}
+              onClick={openCalculator}
             >
               <span>{t.hero.ctaPrimary}</span>
               <span className="btn-ico" aria-hidden="true">
                 <ArrowIcon />
               </span>
-            </a>
+            </button>
             <a
               href="#cases"
               className="btn btn-outline"

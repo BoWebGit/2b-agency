@@ -27,14 +27,14 @@ export const translations = {
       contacts: "Контакти",
     },
 
-    headerCta: "Обговорити проєкт",
+    headerCta: "Розрахувати проєкт",
 
     hero: {
-      eyebrow: "Innovative digital agency",
+      eyebrow: "Інноваційна digital agency",
       lineLeft: "digital",
       lineRight: "agency",
-      lead: "A full cycle digital agency: design, web development, promotion and analysis. We make products that work for results.",
-      ctaPrimary: "Обговорити проєкт",
+      lead: "Агенція повного циклу: дизайн, веб-розробка, просування та аналітика. Створюємо продукти, що працюють на результат.",
+      ctaPrimary: "Розрахувати проєкт",
       ctaSecondary: "Дивитись cases",
       figureAlt: "Фігура 2b agency",
     },
@@ -63,7 +63,7 @@ export const translations = {
       list: [
         {
           idx: "01",
-          name: "Design",
+          name: "Дизайн",
           desc: "Брендинг, UX/UI та візуальні системи, що виглядають дорого і працюють зрозуміло.",
           features: [
             "Брендинг та візуальна ідентичність",
@@ -228,6 +228,8 @@ export const translations = {
       lead: "Оберіть тип сайту, який вам потрібен, — ціна одразу зрозуміла. Точну суму назвемо після короткого brief.",
       cta: "Обрати",
       requestFor: "Заявка на тариф",
+      thanksTitle: "Дякуємо!",
+      thanksClose: "Закрити",
       tiers: [
         {
           name: "Лендінг / одна сторінка",
@@ -303,12 +305,73 @@ export const translations = {
       ],
     },
 
+    calculator: {
+      title: "Розрахунок вартості проєкту",
+      stepPrefix: "Крок",
+      stepOf: "з",
+      back: "Назад",
+      next: "Далі",
+      stepTitles: [
+        "Який тип сайту вам потрібен?",
+        "Скільки сторінок чи секцій?",
+        "Додаткові фічі",
+        "Терміни виконання",
+      ],
+      siteTypes: [
+        {
+          name: "Лендінг / одна сторінка",
+          desc: "Швидкий запуск, акція, перевірка ідеї",
+          base: 800,
+        },
+        {
+          name: "Сайт на WordPress",
+          desc: "Сайт-візитка чи кілька сторінок для бізнесу",
+          base: 1800,
+        },
+        {
+          name: "Інтернет-магазин",
+          desc: "Каталог товарів, оплата, доставка",
+          base: 3500,
+        },
+        {
+          name: "Сайт на коді (без CMS)",
+          desc: "Складна логіка, своя система, висока швидкість",
+          base: 6000,
+        },
+      ],
+      pageCounts: [
+        { name: "1-3 сторінки", add: 0 },
+        { name: "4-7 сторінок", add: 300 },
+        { name: "8-15 сторінок", add: 700 },
+        { name: "15+ сторінок", add: 1500 },
+      ],
+      features: [
+        { name: "Багатомовність (UA/EN)", add: 300 },
+        { name: "CMS / адмінка для контенту", add: 400 },
+        { name: "Анімації та інтерактив", add: 500 },
+        { name: "Інтеграції (CRM, оплата)", add: 400 },
+        { name: "SEO-пакет на старті", add: 300 },
+      ],
+      timelines: [
+        { name: "Стандартні терміни (3-6 тижнів)", mult: 1 },
+        { name: "Прискорені терміни (1-2 тижні)", mult: 1.25 },
+      ],
+      resultTitle: "Орієнтовна вартість проєкту",
+      resultNote:
+        "Це орієнтовний розрахунок. Точну суму назвемо після короткого brief.",
+      submit: "Надіслати заявку",
+      thanksTitle: "Дякуємо!",
+      thanksText: "Ми звʼяжемося з вами протягом 24 годин з деталізованою пропозицією.",
+      thanksClose: "Закрити",
+    },
+
     blog: {
       titleLine1: "Думки",
       titleLine2: "та інсайти",
       all: "Усі статті",
       posts: [
         {
+          slug: "design-system-budget",
           cat: "Design",
           date: "12.05.2026",
           title: "Як дизайн-система економить бюджет продукту",
@@ -316,6 +379,7 @@ export const translations = {
           img: "/images/blog-design.jpg",
         },
         {
+          slug: "core-web-vitals-2026",
           cat: "Development",
           date: "28.04.2026",
           title: "Core Web Vitals: що впливає на конверсію у 2026",
@@ -323,6 +387,7 @@ export const translations = {
           img: "/images/blog-development.jpg",
         },
         {
+          slug: "brand-metrics-that-matter",
           cat: "Analytics",
           date: "09.04.2026",
           title: "Метрики, які насправді варто відстежувати бренду",
@@ -468,14 +533,14 @@ export const translations = {
       contacts: "Contacts",
     },
 
-    headerCta: "Start a project",
+    headerCta: "Calculate project",
 
     hero: {
       eyebrow: "Innovative digital agency",
       lineLeft: "digital",
       lineRight: "agency",
       lead: "A full cycle digital agency: design, web development, promotion and analysis. We make products that work for results.",
-      ctaPrimary: "Start a project",
+      ctaPrimary: "Calculate project",
       ctaSecondary: "View cases",
       figureAlt: "2b agency figure",
     },
@@ -668,6 +733,8 @@ export const translations = {
       lead: "Pick the type of website you need - the price is clear right away. We confirm the exact number after a short brief.",
       cta: "Choose",
       requestFor: "Request a plan",
+      thanksTitle: "Thank you!",
+      thanksClose: "Close",
       tiers: [
         {
           name: "Landing page / one-pager",
@@ -743,12 +810,73 @@ export const translations = {
       ],
     },
 
+    calculator: {
+      title: "Project cost calculator",
+      stepPrefix: "Step",
+      stepOf: "of",
+      back: "Back",
+      next: "Next",
+      stepTitles: [
+        "What type of website do you need?",
+        "How many pages or sections?",
+        "Extra features",
+        "Timeline",
+      ],
+      siteTypes: [
+        {
+          name: "Landing page / one-pager",
+          desc: "Fast launch, a promo, testing an idea",
+          base: 800,
+        },
+        {
+          name: "WordPress website",
+          desc: "A business card site or a few pages for a business",
+          base: 1800,
+        },
+        {
+          name: "Online store",
+          desc: "Product catalog, payments, delivery",
+          base: 3500,
+        },
+        {
+          name: "Custom-coded website (no CMS)",
+          desc: "Complex logic, a custom system, top speed",
+          base: 6000,
+        },
+      ],
+      pageCounts: [
+        { name: "1-3 pages", add: 0 },
+        { name: "4-7 pages", add: 300 },
+        { name: "8-15 pages", add: 700 },
+        { name: "15+ pages", add: 1500 },
+      ],
+      features: [
+        { name: "Multilingual (UA/EN)", add: 300 },
+        { name: "CMS / content admin panel", add: 400 },
+        { name: "Animation and interactivity", add: 500 },
+        { name: "Integrations (CRM, payments)", add: 400 },
+        { name: "SEO starter package", add: 300 },
+      ],
+      timelines: [
+        { name: "Standard timeline (3-6 weeks)", mult: 1 },
+        { name: "Rush timeline (1-2 weeks)", mult: 1.25 },
+      ],
+      resultTitle: "Estimated project cost",
+      resultNote:
+        "This is a ballpark estimate. We'll confirm the exact number after a short brief.",
+      submit: "Send request",
+      thanksTitle: "Thank you!",
+      thanksText: "We'll get back to you within 24 hours with a detailed proposal.",
+      thanksClose: "Close",
+    },
+
     blog: {
       titleLine1: "Thoughts",
       titleLine2: "& insights",
       all: "All articles",
       posts: [
         {
+          slug: "design-system-budget",
           cat: "Design",
           date: "12.05.2026",
           title: "How a design system saves your product budget",
@@ -756,6 +884,7 @@ export const translations = {
           img: "/images/blog-design.jpg",
         },
         {
+          slug: "core-web-vitals-2026",
           cat: "Development",
           date: "28.04.2026",
           title: "Core Web Vitals: what affects conversion in 2026",
@@ -763,6 +892,7 @@ export const translations = {
           img: "/images/blog-development.jpg",
         },
         {
+          slug: "brand-metrics-that-matter",
           cat: "Analytics",
           date: "09.04.2026",
           title: "Metrics a brand should actually track",

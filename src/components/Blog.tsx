@@ -31,7 +31,13 @@ export function Blog() {
 
         <div className="blog__grid" ref={gridRef}>
           {t.blog.posts.map((post, i) => (
-            <Reveal as="article" key={post.title} className="post" index={i}>
+            <Reveal
+              as="a"
+              key={post.slug}
+              href={`/news/${post.slug}`}
+              className="post"
+              index={i}
+            >
               <div className="post__media">
                 <Image
                   src={post.img}

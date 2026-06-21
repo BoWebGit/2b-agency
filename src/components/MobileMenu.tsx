@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { useHeaderOffsetScroll } from "@/hooks/useHeaderOffsetScroll";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { useCalculator } from "./CalculatorProvider";
 import { ArrowIcon } from "./icons";
 import { LangToggle } from "./LangToggle";
 
@@ -20,6 +21,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
   const menuRef = useRef<HTMLDivElement | null>(null);
   const lastFocused = useRef<HTMLElement | null>(null);
   const handleAnchorClick = useHeaderOffsetScroll();
+  const { openCalculator } = useCalculator();
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -99,16 +101,19 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
         style={{ "--i": navItems.length } as React.CSSProperties}
       >
         <LangToggle />
-        <a
-          href="/#contacts"
+        <button
+          type="button"
           className="btn btn-primary mobile-cta"
-          onClick={handleNavClick}
+          onClick={() => {
+            onClose();
+            openCalculator();
+          }}
         >
           <span>{t.headerCta}</span>
           <span className="btn-ico" aria-hidden="true">
             <ArrowIcon />
           </span>
-        </a>
+        </button>
       </div>
     </div>
   );

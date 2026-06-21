@@ -22,8 +22,8 @@ export default function NotFound() {
               <Image
                 src="/images/404.png"
                 alt={t.notFound.title}
-                width={480}
-                height={320}
+                width={1536}
+                height={730}
                 priority
               />
             </div>

@@ -709,13 +709,26 @@ h4 {
 }
 
 /* ===================== MARQUEE (ported from 2b, tilted) ======= */
+/* .marquee is rotated and wider than the viewport (108vw) on purpose,
+   for the full-bleed tilted-ribbon look - but a rotated box wider than
+   100vw pushes the page's own scrollable width past 100vw too (rotation
+   grows the bounding box), causing a horizontal shift/scrollbar on the
+   whole site. Clipping that overflow needs a separate, unrotated
+   wrapper - .marquee's own `overflow: hidden` only clips its content,
+   not its own rotated footprint. */
+.marquee-wrap {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden;
+  margin-top: clamp(0.5rem, 1.5vw, 1.5rem);
+  padding-block: 3vw;
+  margin-bottom: clamp(2.5rem, 7vw, 6rem);
+}
 .marquee {
   position: relative;
   z-index: 3;
   width: 108vw;
   margin-left: -4vw;
-  margin-top: clamp(0.5rem, 1.5vw, 1.5rem);
-  margin-bottom: clamp(2.5rem, 7vw, 6rem);
   background: var(--charcoal);
   padding: 16px 0;
   overflow: hidden;
@@ -863,7 +876,6 @@ h4 {
   align-items: flex-end;
   justify-content: space-between;
   gap: 2rem;
-  flex-wrap: wrap;
 }
 .services-sub,
 .price-lead {
@@ -1078,6 +1090,135 @@ h4 {
 }
 .service-modal .form__note.is-success {
   color: var(--orange);
+}
+.service-modal-thanks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.6rem;
+  padding-top: 1rem;
+}
+.service-modal-thanks-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #e8f7ee;
+  border: 2px solid #1fa550;
+  color: #1fa550;
+  margin-bottom: 0.4rem;
+}
+.service-modal-thanks .service-modal-title {
+  padding-right: 0;
+}
+.service-modal-thanks .service-modal-desc {
+  margin-bottom: 1.6rem;
+}
+.service-modal-thanks .btn-block {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ===================== PROJECT CALCULATOR (popup) =============== */
+.calculator-modal {
+  max-width: 460px;
+}
+.calc-progress {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1.1rem;
+}
+.calc-progress-dot {
+  flex: 1;
+  height: 3px;
+  border-radius: var(--r-pill);
+  background: rgba(36, 40, 46, 0.12);
+}
+.calc-progress-dot.is-active {
+  background: var(--orange);
+}
+.calc-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+}
+.calc-option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card-sm, 14px);
+  background: var(--white);
+  transition:
+    border-color 0.25s var(--ease),
+    background 0.25s var(--ease);
+}
+.calc-option:hover {
+  border-color: rgba(241, 83, 30, 0.45);
+}
+.calc-option.is-selected {
+  border-color: var(--orange);
+  background: rgba(241, 83, 30, 0.06);
+}
+.calc-option-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--charcoal);
+}
+.calc-option-desc {
+  font-size: 0.85rem;
+  color: var(--charcoal-55);
+}
+.calc-option-price {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--orange);
+  margin-top: 0.2rem;
+}
+.calc-nav {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 1.4rem;
+}
+.calc-nav-next {
+  flex: 1;
+  justify-content: center;
+}
+.calc-nav-next:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+.calc-result {
+  text-align: center;
+  padding: 1.2rem 0 1.4rem;
+}
+.calc-result-label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--charcoal-55);
+  margin-bottom: 0.3rem;
+}
+.calc-result-price {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 1.4rem + 1.6vw, 2.4rem);
+  color: var(--orange);
+  letter-spacing: -0.02em;
+}
+.calc-result-note {
+  font-size: 0.85rem;
+  color: var(--charcoal-55);
+  margin-top: 0.5rem;
 }
 
 /* ============================= CASES (§6.5) ==================== */
@@ -1497,7 +1638,7 @@ h4 {
   }
   .post {
     flex: 0 0 auto;
-    width: min(78vw, 380px);
+    width: min(calc(100vw - 40px), 300px);
     scroll-snap-align: start;
   }
 }
@@ -2189,8 +2330,8 @@ body.cursor-active select {
     gap: 2.5rem;
   }
   .contacts__social a {
-    font-size: 13px;
-    padding: 8px 14px;
+    font-size: 12px;
+    padding: 8px 12px;
   }
 
   .footer-top {
@@ -2247,7 +2388,7 @@ body.cursor-active select {
 }
 .not-found-inner {
   width: 100%;
-  max-width: 560px;
+  max-width: 900px;
   margin-inline: auto;
   text-align: center;
   display: flex;
@@ -2258,7 +2399,7 @@ body.cursor-active select {
   margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
 }
 .not-found-art img {
-  width: clamp(220px, 32vw, 360px);
+  width: clamp(220px, 56vw, 800px);
   height: auto;
 }
 .not-found-title {
@@ -2399,7 +2540,7 @@ body.cursor-active select {
   padding-top: clamp(7rem, 12vw, 9rem);
 }
 .news-article-head {
-  max-width: 760px;
+  max-width: 980px;
   margin-inline: auto;
   margin-bottom: clamp(2rem, 4vw, 3rem);
 }
@@ -2426,11 +2567,11 @@ body.cursor-active select {
   color: var(--charcoal);
 }
 .news-article-media {
-  max-width: 1040px;
-  margin-inline: auto;
+  max-width: 1140px;
   border-radius: var(--r-card);
   overflow: hidden;
   margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-right: 30px;
 }
 .news-article-media img {
   width: 100%;
@@ -2440,7 +2581,7 @@ body.cursor-active select {
   object-fit: cover;
 }
 .news-article-body {
-  max-width: 760px;
+  max-width: 980px;
   margin-inline: auto;
   padding-bottom: var(--section-y);
   display: flex;
@@ -2514,5 +2655,9 @@ body.cursor-active select {
   }
   .news-article-nav-card--next {
     text-align: left;
+  }
+
+  .news-article-media {
+    border-right: 14px;
   }
 }

@@ -42,6 +42,27 @@ export function CloseIcon({
   );
 }
 
+export function CheckIcon({
+  width = 28,
+  height = 28,
+}: {
+  width?: number;
+  height?: number;
+}) {
+  return (
+    <svg viewBox="0 0 24 24" width={width} height={height} aria-hidden="true">
+      <path
+        d="M5 12.5L9.5 17L19 7"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function ArrowIconThin({
   width = 24,
   height = 24,

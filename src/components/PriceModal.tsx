@@ -1,8 +1,9 @@
 "use client";
 
 import { type FormEvent, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import { ArrowIcon, CloseIcon } from "./icons";
+import { ArrowIcon, CheckIcon, CloseIcon } from "./icons";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -29,6 +30,11 @@ export function PriceModal({ tier, onClose }: PriceModalProps) {
   const lastFocused = useRef<HTMLElement | null>(null);
   const [invalid, setInvalid] = useState<Record<string, boolean>>({});
   const [success, setSuccess] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -108,7 +114,9 @@ export function PriceModal({ tier, onClose }: PriceModalProps) {
     if (invalid[name]) setInvalid((prev) => ({ ...prev, [name]: false }));
   }
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       className={`service-modal-overlay${open ? " open" : ""}`}
       aria-hidden={!open}
@@ -131,7 +139,23 @@ export function PriceModal({ tier, onClose }: PriceModalProps) {
         >
           <CloseIcon />
         </button>
-        {tier && (
+        {tier && success && (
+          <div className="service-modal-thanks">
+            <span className="service-modal-thanks-icon" aria-hidden="true">
+              <CheckIcon />
+            </span>
+            <h3 className="service-modal-title">{t.price.thanksTitle}</h3>
+            <p className="service-modal-desc">{t.contacts.success}</p>
+            <button
+              type="button"
+              className="btn btn-primary btn-block"
+              onClick={onClose}
+            >
+              <span>{t.price.thanksClose}</span>
+            </button>
+          </div>
+        )}
+        {tier && !success && (
           <>
             <span className="service-modal-idx">{t.price.requestFor}</span>
             <h3 className="service-modal-title">{tier.name}</h3>
@@ -170,13 +194,12 @@ export function PriceModal({ tier, onClose }: PriceModalProps) {
                   <ArrowIcon />
                 </span>
               </button>
-              <p className={`form__note${success ? " is-success" : ""}`}>
-                {success ? t.contacts.success : t.contacts.note}
-              </p>
+              <p className="form__note">{t.contacts.note}</p>
             </form>
           </>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

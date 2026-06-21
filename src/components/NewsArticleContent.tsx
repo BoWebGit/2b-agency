@@ -38,7 +38,7 @@ export function NewsArticleContent({ slug }: { slug: string }) {
             <h1 className="news-article-title">{article.title}</h1>
           </div>
 
-          <div className="news-article-media">
+          <div className="container news-article-media">
             <Image src={article.img} alt="" width={1200} height={720} priority />
           </div>
 

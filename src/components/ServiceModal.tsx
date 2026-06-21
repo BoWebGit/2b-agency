@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useHeaderOffsetScroll } from "@/hooks/useHeaderOffsetScroll";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { useCalculator } from "./CalculatorProvider";
 import { ArrowIcon, CloseIcon } from "./icons";
 
 interface ServiceInfo {
@@ -28,7 +29,12 @@ export function ServiceModal({ service, onClose }: ServiceModalProps) {
   const open = service !== null;
   const modalRef = useRef<HTMLDivElement | null>(null);
   const lastFocused = useRef<HTMLElement | null>(null);
-  const handleAnchorClick = useHeaderOffsetScroll();
+  const { openCalculator } = useCalculator();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -69,12 +75,14 @@ export function ServiceModal({ service, onClose }: ServiceModalProps) {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, onClose]);
 
-  function handleCtaClick(e: React.MouseEvent<HTMLAnchorElement>) {
-    handleAnchorClick(e);
+  function handleCtaClick() {
     onClose();
+    openCalculator();
   }
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       className={`service-modal-overlay${open ? " open" : ""}`}
       aria-hidden={!open}
@@ -107,8 +115,8 @@ export function ServiceModal({ service, onClose }: ServiceModalProps) {
                 <li key={feature}>{feature}</li>
               ))}
             </ul>
-            <a
-              href="/#contacts"
+            <button
+              type="button"
               className="btn btn-primary btn-block"
               onClick={handleCtaClick}
             >
@@ -116,10 +124,11 @@ export function ServiceModal({ service, onClose }: ServiceModalProps) {
               <span className="btn-ico" aria-hidden="true">
                 <ArrowIcon />
               </span>
-            </a>
+            </button>
           </>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
