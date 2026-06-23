@@ -19,9 +19,7 @@ export function CalculatorProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <CalculatorContext.Provider
-      value={{ openCalculator: () => setOpen(true) }}
-    >
+    <CalculatorContext.Provider value={{ openCalculator: () => setOpen(true) }}>
       {children}
       <CalculatorModal open={open} onClose={() => setOpen(false)} />
     </CalculatorContext.Provider>

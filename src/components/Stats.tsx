@@ -18,9 +18,7 @@ function StatItem({
       <span className="stat-num" ref={ref}>
         {value}
         {suffix ? (
-          <span
-            className={`stat-suffix${suffix === "%" ? " is-percent" : ""}`}
-          >
+          <span className={`stat-suffix${suffix === "%" ? " is-percent" : ""}`}>
             {suffix}
           </span>
         ) : null}

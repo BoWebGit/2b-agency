@@ -1,17 +1,10 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useCallback, useContext, useMemo } from "react";
+import { defaultLocale, type Locale, localizedPath } from "./config";
 import { type Dict, type Lang, translations } from "./translations";
-
-const STORAGE_KEY = "2b-lang";
 
 interface LanguageContextValue {
   lang: Lang;
@@ -21,36 +14,40 @@ interface LanguageContextValue {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("uk");
+/**
+ * Locale is now a routing concern, not client state: "uk" is served
+ * unprefixed and "en" under "/en" (see middleware.ts + src/app/[locale]).
+ * This provider derives `lang` from the locale the current route was
+ * rendered with (passed down from the `[locale]` layout) and `setLang`
+ * navigates to the equivalent path under the other locale instead of
+ * mutating localStorage/context state.
+ */
+export function LanguageProvider({
+  locale,
+  children,
+}: {
+  locale: Locale;
+  children: ReactNode;
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
 
-  // Restore the saved choice on mount (client only - localStorage is not
-  // available during SSR/static export). Default stays "uk" otherwise.
-  useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem(STORAGE_KEY);
-      if (saved === "en" || saved === "uk") setLangState(saved);
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("lang", lang);
-  }, [lang]);
-
-  const setLang = useCallback((next: Lang) => {
-    setLangState(next);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
+  const setLang = useCallback(
+    (next: Lang) => {
+      if (next === locale) return;
+      // Strip the current locale prefix (if any) to get the locale-agnostic path.
+      const bare =
+        locale === defaultLocale
+          ? pathname
+          : pathname.replace(/^\/en/, "") || "/";
+      router.push(localizedPath(next, bare));
+    },
+    [locale, pathname, router],
+  );
 
   const value = useMemo<LanguageContextValue>(
-    () => ({ lang, t: translations[lang], setLang }),
-    [lang, setLang],
+    () => ({ lang: locale, t: translations[locale], setLang }),
+    [locale, setLang],
   );
 
   return (

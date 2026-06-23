@@ -90,7 +90,9 @@ export function PriceModal({ tier, onClose }: PriceModalProps) {
       const input = form.elements.namedItem(name) as HTMLInputElement | null;
       if (!input) return;
       const valid =
-        name === "email" ? EMAIL_RE.test(input.value) : input.value.trim() !== "";
+        name === "email"
+          ? EMAIL_RE.test(input.value)
+          : input.value.trim() !== "";
       nextInvalid[name] = !valid;
       if (!valid) ok = false;
     });
@@ -185,7 +187,12 @@ export function PriceModal({ tier, onClose }: PriceModalProps) {
                 <label htmlFor="pf-email">{t.contacts.emailLabel}</label>
               </div>
               <div className="field">
-                <textarea name="message" id="pf-message" rows={3} placeholder=" " />
+                <textarea
+                  name="message"
+                  id="pf-message"
+                  rows={3}
+                  placeholder=" "
+                />
                 <label htmlFor="pf-message">{t.contacts.messageLabel}</label>
               </div>
               <button type="submit" className="btn btn-primary btn-block">

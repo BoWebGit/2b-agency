@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
-import { useHeaderOffsetScroll } from "@/hooks/useHeaderOffsetScroll";
 import { ArrowIconThin } from "./icons";
 
 interface CaseCardProps {
-  slot: "case-1" | "case-2" | "case-3" | "case-4";
+  slot: string;
+  href: string;
   src: string;
   alt: string;
   width: number;
@@ -16,7 +17,8 @@ interface CaseCardProps {
 }
 
 /**
- * Ports a single `.case-card`. The `case-1.png`..`case-4.png` source
+ * Ports a single `.case-card`, now linking through to `/cases/[slug]`
+ * instead of the homepage `#contacts` anchor. The `case-N.png` source
  * images do not currently exist on disk - the original's inline
  * `onerror` swaps in a branded gradient fallback with a "2b" wordmark
  * (`.case-media.case-fallback`); this re-implements that exact fallback
@@ -24,6 +26,7 @@ interface CaseCardProps {
  */
 export function CaseCard({
   slot,
+  href,
   src,
   alt,
   width,
@@ -32,14 +35,9 @@ export function CaseCard({
   title,
 }: CaseCardProps) {
   const [failed, setFailed] = useState(false);
-  const handleAnchorClick = useHeaderOffsetScroll();
 
   return (
-    <a
-      className={`case-card ${slot}`}
-      href="#contacts"
-      onClick={handleAnchorClick}
-    >
+    <Link className={`case-card ${slot}`} href={href}>
       <div className={`case-media${failed ? " case-fallback" : ""}`}>
         {!failed && (
           <Image
@@ -59,6 +57,6 @@ export function CaseCard({
           <ArrowIconThin width={22} height={22} />
         </span>
       </div>
-    </a>
+    </Link>
   );
 }

@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { localizedPath } from "@/i18n/config";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { CustomCursor } from "./CustomCursor";
 import { Footer } from "./Footer";
@@ -9,7 +11,7 @@ import { SplitHeading } from "./SplitHeading";
 
 /** /news: full news/blog grid, no carousel - it's a dedicated listing page. */
 export function NewsPageContent() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
 
   return (
     <>
@@ -25,6 +27,7 @@ export function NewsPageContent() {
                   <span>{t.newsPage.eyebrow}</span>
                 </p>
                 <SplitHeading
+                  as="h1"
                   id="news-page-title"
                   lines={[t.newsPage.title]}
                   className="section-title"
@@ -35,13 +38,19 @@ export function NewsPageContent() {
 
             <div className="news-grid">
               {t.newsPage.items.map((item) => (
-                <a
+                <Link
                   key={item.slug}
-                  href={`/news/${item.slug}`}
+                  href={localizedPath(lang, `/news/${item.slug}`)}
                   className="post news-card"
                 >
                   <div className="post__media">
-                    <Image src={item.img} alt="" width={400} height={300} loading="lazy" />
+                    <Image
+                      src={item.img}
+                      alt={item.title}
+                      width={400}
+                      height={300}
+                      loading="lazy"
+                    />
                   </div>
                   <div className="post__meta">
                     <span>{item.cat}</span>
@@ -49,7 +58,7 @@ export function NewsPageContent() {
                   </div>
                   <h3 className="post__title">{item.title}</h3>
                   <p className="news-card-excerpt">{item.excerpt}</p>
-                </a>
+                </Link>
               ))}
             </div>
           </div>

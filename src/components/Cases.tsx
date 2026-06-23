@@ -1,26 +1,15 @@
 "use client";
 
+import Link from "next/link";
 import { useCasesPin } from "@/hooks/useCasesPin";
+import { useReveal } from "@/hooks/useReveal";
 import { useWheelHorizontalScroll } from "@/hooks/useWheelHorizontalScroll";
+import { localizedPath } from "@/i18n/config";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { CaseCard } from "./CaseCard";
 import { ArrowIcon } from "./icons";
 import { Reveal } from "./Reveal";
 import { SplitHeading } from "./SplitHeading";
-
-const SLOTS = ["case-1", "case-2", "case-3", "case-4"] as const;
-// case-N.png files do not exist on disk yet; CaseCard's onError swap to
-// the gradient "2b" fallback handles that, same as the original's inline
-// onerror handler. Dimensions match the index.html width/height attrs.
-const DIMENSIONS: Record<
-  (typeof SLOTS)[number],
-  { width: number; height: number }
-> = {
-  "case-1": { width: 760, height: 520 },
-  "case-2": { width: 520, height: 400 },
-  "case-3": { width: 520, height: 400 },
-  "case-4": { width: 760, height: 430 },
-};
 
 /**
  * Ports cases (§6.5): desktop pins the section and drives the horizontal
@@ -30,11 +19,12 @@ const DIMENSIONS: Record<
  * inactive (handled inside the hook itself).
  */
 export function Cases() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const { wrapRef, trackRef, progressFillRef } = useCasesPin();
   const viewportRef = useWheelHorizontalScroll<HTMLDivElement>(
     () => wrapRef.current?.classList.contains("is-pinned") ?? false,
   );
+  const allCasesRevealRef = useReveal<HTMLAnchorElement>();
 
   return (
     <section className="cases" id="cases" aria-labelledby="cases-title">
@@ -53,31 +43,33 @@ export function Cases() {
                   className="section-title"
                 />
               </div>
-              <Reveal as="a" href="/cases" className="text-link">
+              <Link
+                href={localizedPath(lang, "/cases")}
+                className="text-link"
+                data-reveal=""
+                ref={allCasesRevealRef}
+              >
                 <span>{t.cases.all}</span>
                 <ArrowIcon width={18} height={18} />
-              </Reveal>
+              </Link>
             </header>
           </div>
 
           <div className="case-track-viewport" ref={viewportRef}>
             <div className="case-track" ref={trackRef}>
-              {t.cases.items.map((item, i) => {
-                const slot = SLOTS[i]!;
-                const dims = DIMENSIONS[slot];
-                return (
-                  <CaseCard
-                    key={slot}
-                    slot={slot}
-                    src={`/images/${slot}.png`}
-                    alt={item.alt}
-                    width={dims.width}
-                    height={dims.height}
-                    cat={item.cat}
-                    title={item.title}
-                  />
-                );
-              })}
+              {t.cases.items.map((item, i) => (
+                <CaseCard
+                  key={item.slug}
+                  slot={`case-${i + 1}`}
+                  href={localizedPath(lang, `/cases/${item.slug}`)}
+                  src={item.img}
+                  alt={item.alt}
+                  width={760}
+                  height={480}
+                  cat={item.cat}
+                  title={item.title}
+                />
+              ))}
             </div>
           </div>
           <div className="case-track-progress" aria-hidden="true">

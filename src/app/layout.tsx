@@ -1,9 +1,25 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, Onest } from "next/font/google";
 import "@/styles/globals.css";
-import { CalculatorProvider } from "@/components/CalculatorProvider";
-import { LanguageProvider } from "@/i18n/LanguageProvider";
+import { JsonLd } from "@/components/JsonLd";
+import { siteUrl } from "@/i18n/config";
+
+const onest = Onest({
+  subsets: ["latin", "cyrillic"],
+  weight: ["500", "700"],
+  variable: "--font-display-family",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600"],
+  variable: "--font-body-family",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "2b, innovative digital agency",
   description:
     "2b, innovative digital agency for brands in products. Design, web development, promotion and analysis. We build brands that sell inside products.",
@@ -25,29 +41,47 @@ export const viewport: Viewport = {
   themeColor: "#F5F3EF",
 };
 
+/**
+ * Only the root layout may render `<html>`/`<body>` in the App Router, but
+ * dynamic segment params (e.g. `[locale]`) below it are not visible here -
+ * and reading the locale via a request-time API (headers/cookies) would
+ * force the entire route tree to render dynamically, defeating the static
+ * generation set up for every page (see generateStaticParams across
+ * src/app/[locale]/**). To keep full static prerendering while still
+ * getting `<html lang>` correct, this renders the default-locale value
+ * server-side (matches the majority "uk" case with zero JS cost) and
+ * corrects it synchronously, before paint, with a tiny inline script for
+ * the "en" case - no FOUC, no client-only flash of the wrong language,
+ * and crawlers (which execute JS) still see the correct value.
+ */
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="uk">
+    <html lang="uk" className={`${onest.variable} ${inter.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Onest:wght@500;700&family=Inter:wght@400;500;600&display=swap&subset=cyrillic,latin"
-          rel="stylesheet"
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: static, hardcoded inline script with no user input
+          dangerouslySetInnerHTML={{
+            __html:
+              "if(location.pathname==='/en'||location.pathname.indexOf('/en/')===0){document.documentElement.lang='en';}",
+          }}
         />
       </head>
       <body>
-        <LanguageProvider>
-          <CalculatorProvider>{children}</CalculatorProvider>
-        </LanguageProvider>
+        <JsonLd
+          id="organization-jsonld"
+          data={{
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "2b agency",
+            url: siteUrl,
+            logo: `${siteUrl}/images/logo.png`,
+          }}
+        />
+        {children}
       </body>
     </html>
   );

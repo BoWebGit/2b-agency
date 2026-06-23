@@ -1,15 +1,17 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { CustomCursor } from "@/components/CustomCursor";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { ArrowIcon } from "@/components/icons";
+import { localizedPath } from "@/i18n/config";
 import { useLanguage } from "@/i18n/LanguageProvider";
 
 /** App Router 404. No preloader (an error page should resolve instantly), but keeps header/footer so visitors can still navigate. */
 export default function NotFound() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
 
   return (
     <>
@@ -29,12 +31,12 @@ export default function NotFound() {
             </div>
             <h1 className="not-found-title">{t.notFound.title}</h1>
             <p className="not-found-lead">{t.notFound.lead}</p>
-            <a href="/" className="btn btn-primary">
+            <Link href={localizedPath(lang, "/")} className="btn btn-primary">
               <span>{t.notFound.cta}</span>
               <span className="btn-ico" aria-hidden="true">
                 <ArrowIcon />
               </span>
-            </a>
+            </Link>
           </div>
         </section>
       </main>

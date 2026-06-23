@@ -73,9 +73,9 @@ ol {
   --orange-12: rgba(241, 83, 30, 0.12);
   --white-70: rgba(255, 255, 255, 0.7);
 
-  /* fonts */
-  --font-display: "Onest", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
+  /* fonts - families are injected by next/font/google via --font-display-family / --font-body-family (see src/app/layout.tsx) */
+  --font-display: var(--font-display-family), system-ui, sans-serif;
+  --font-body: var(--font-body-family), system-ui, sans-serif;
 
   /* fluid type scale (§3) */
   --fs-hero: clamp(3.6rem, 1.8rem + 7.8vw, 9.5rem);
@@ -2659,5 +2659,93 @@ body.cursor-active select {
 
   .news-article-media {
     border-right: 14px;
+  }
+}
+
+/* ===================== CASE DETAIL (/cases/[slug]) ================ */
+.case-detail {
+  position: relative;
+  padding-top: clamp(7rem, 12vw, 9rem);
+}
+.case-detail-head {
+  max-width: 980px;
+  margin-inline: auto;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+.case-detail-back {
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+.case-detail-cat {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--orange);
+  margin-bottom: 0.6rem;
+}
+.case-detail-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 1.4rem + 2.4vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--charcoal);
+  margin-bottom: 1.1rem;
+}
+.case-detail-lead {
+  max-width: 42ch;
+  font-size: var(--fs-lead);
+  color: var(--charcoal-80);
+  margin-bottom: 1.6rem;
+}
+.case-detail-media {
+  max-width: 1140px;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+.case-detail-media .case-media {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r-card);
+}
+.case-detail-meta {
+  max-width: 980px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.75rem;
+  padding-bottom: var(--section-y);
+}
+.case-detail-meta-item dt {
+  font-weight: 600;
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--charcoal-55);
+  margin-bottom: 0.4rem;
+}
+.case-detail-meta-item dd {
+  font-weight: 600;
+  font-size: var(--fs-h4);
+}
+.case-detail-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.case-detail-role {
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  padding: 0.3rem 0.85rem;
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+@media (max-width: 700px) {
+  .case-detail-meta {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
   }
 }

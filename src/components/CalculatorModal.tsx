@@ -129,7 +129,8 @@ export function CalculatorModal({ open, onClose }: CalculatorModalProps) {
     (sum, idx) => sum + t.calculator.features[idx]!.add,
     0,
   );
-  const mult = timelineIdx !== null ? t.calculator.timelines[timelineIdx]!.mult : 1;
+  const mult =
+    timelineIdx !== null ? t.calculator.timelines[timelineIdx]!.mult : 1;
   const total = roundTo((base + pagesAdd + featuresAdd) * mult, 50);
   const totalHigh = roundTo(total * 1.15, 50);
 
@@ -144,7 +145,9 @@ export function CalculatorModal({ open, onClose }: CalculatorModalProps) {
       const input = form.elements.namedItem(name) as HTMLInputElement | null;
       if (!input) return;
       const valid =
-        name === "email" ? EMAIL_RE.test(input.value) : input.value.trim() !== "";
+        name === "email"
+          ? EMAIL_RE.test(input.value)
+          : input.value.trim() !== "";
       nextInvalid[name] = !valid;
       if (!valid) ok = false;
     });

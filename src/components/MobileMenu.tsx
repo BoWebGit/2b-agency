@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useHeaderOffsetScroll } from "@/hooks/useHeaderOffsetScroll";
+import { localizedPath } from "@/i18n/config";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { useCalculator } from "./CalculatorProvider";
 import { ArrowIcon } from "./icons";
@@ -17,11 +18,12 @@ interface MobileMenuProps {
  * close, focus trap + restore, body scroll lock while open.
  */
 export function MobileMenu({ open, onClose }: MobileMenuProps) {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const menuRef = useRef<HTMLDivElement | null>(null);
   const lastFocused = useRef<HTMLElement | null>(null);
   const handleAnchorClick = useHeaderOffsetScroll();
   const { openCalculator } = useCalculator();
+  const homePath = localizedPath(lang, "/");
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -64,12 +66,12 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
   }, [open, onClose]);
 
   const navItems: Array<{ href: string; label: string }> = [
-    { href: "/#about", label: t.nav.about },
-    { href: "/#services", label: t.nav.services },
-    { href: "/#cases", label: t.nav.cases },
-    { href: "/#price", label: t.nav.price },
-    { href: "/#blog", label: t.nav.blog },
-    { href: "/#contacts", label: t.nav.contacts },
+    { href: `${homePath}#about`, label: t.nav.about },
+    { href: `${homePath}#services`, label: t.nav.services },
+    { href: `${homePath}#cases`, label: t.nav.cases },
+    { href: `${homePath}#price`, label: t.nav.price },
+    { href: `${homePath}#blog`, label: t.nav.blog },
+    { href: `${homePath}#contacts`, label: t.nav.contacts },
   ];
 
   function handleNavClick(e: React.MouseEvent<HTMLAnchorElement>) {
@@ -84,7 +86,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
       aria-hidden={!open}
       ref={menuRef}
     >
-      <nav className="mobile-nav" aria-label="Мобільна навігація">
+      <nav className="mobile-nav" aria-label={t.nav.mobileNav}>
         {navItems.map((item, i) => (
           <a
             key={item.href}
