@@ -14,14 +14,22 @@ export async function generateMetadata({
   const t = translations[locale];
 
   return {
-    title: "Boweb, innovative digital agency",
+    title: t.metaTitle,
     description: t.metaDescription,
     alternates: buildAlternates(locale, "/"),
     openGraph: {
       type: "website",
-      title: "Boweb, innovative digital agency",
+      title: t.metaTitle,
       description: t.metaDescription,
+      siteName: "Boweb",
       locale: locale === "uk" ? "uk_UA" : "en_US",
+      images: ["/og.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t.metaTitle,
+      description: t.metaDescription,
+      images: ["/og.png"],
     },
   };
 }

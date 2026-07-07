@@ -7,8 +7,9 @@ export type Lang = "uk" | "en";
 
 export const translations = {
   uk: {
+    metaTitle: "Boweb — створення сайтів, дизайн та SEO-просування",
     metaDescription:
-      "Boweb, innovative digital agency для брендів у products. Design, розробка сайтів, просування та аналіз. Будуємо brands, що продають у products.",
+      "Digital-агенція повного циклу: створення та розробка сайтів, веб-дизайн, SEO-просування й аналітика. Робимо сайти, що приносять клієнтів. Львів та вся Україна.",
     skipLink: "Перейти до вмісту",
     cursorLabel: "дивитись",
 
@@ -511,8 +512,9 @@ export const translations = {
   },
 
   en: {
+    metaTitle: "Boweb — Web Design, Development & SEO Agency",
     metaDescription:
-      "Boweb, innovative digital agency for brands in products. Design, web development, promotion and analysis. We build brands that sell inside products.",
+      "Full-cycle digital agency: website design and development, SEO and analytics. We build sites that bring in clients. Based in Lviv, working across Ukraine and worldwide.",
     skipLink: "Skip to content",
     cursorLabel: "view",
 

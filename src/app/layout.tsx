@@ -18,17 +18,27 @@ const inter = Inter({
   display: "swap",
 });
 
+const defaultTitle = "Boweb — створення сайтів, дизайн та SEO-просування";
+const defaultDescription =
+  "Digital-агенція повного циклу: створення та розробка сайтів, веб-дизайн, SEO-просування й аналітика. Робимо сайти, що приносять клієнтів. Львів та вся Україна.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Boweb, innovative digital agency",
-  description:
-    "Boweb, innovative digital agency for brands in products. Design, web development, promotion and analysis. We build brands that sell inside products.",
+  title: defaultTitle,
+  description: defaultDescription,
   openGraph: {
     type: "website",
-    title: "Boweb, innovative digital agency",
-    description:
-      "We build brands that sell inside products. A full cycle digital agency: design, web development, promotion and analysis.",
+    title: defaultTitle,
+    description: defaultDescription,
+    siteName: "Boweb",
     locale: "uk_UA",
+    images: ["/og.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: defaultTitle,
+    description: defaultDescription,
+    images: ["/og.png"],
   },
   // Favicon comes from the App Router file convention (src/app/icon.svg) -
   // the brand "b" glyph from the logo on a charcoal tile.
