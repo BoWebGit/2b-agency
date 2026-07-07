@@ -28,12 +28,12 @@ export async function generateMetadata({
   if (!item) return {};
 
   return {
-    title: `${item.title} - 2b agency`,
+    title: `${item.title} - Boweb`,
     description: item.description,
     alternates: buildAlternates(locale, `/cases/${slug}`),
     openGraph: {
       type: "article",
-      title: `${item.title} - 2b agency`,
+      title: `${item.title} - Boweb`,
       description: item.description,
       images: [item.img],
       locale: locale === "uk" ? "uk_UA" : "en_US",

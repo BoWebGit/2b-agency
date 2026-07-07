@@ -28,7 +28,7 @@ export async function generateMetadata({
   if (!article) return {};
 
   return {
-    title: `${article.title} - 2b agency`,
+    title: `${article.title} - Boweb`,
     description: article.excerpt,
     alternates: buildAlternates(locale, `/news/${slug}`),
     openGraph: {
@@ -77,11 +77,11 @@ export default async function NewsArticlePage({
           ...(isoDate ? { datePublished: isoDate } : {}),
           author: {
             "@type": "Organization",
-            name: "2b agency",
+            name: "Boweb",
           },
           publisher: {
             "@type": "Organization",
-            name: "2b agency",
+            name: "Boweb",
           },
         }}
       />

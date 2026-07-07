@@ -20,12 +20,12 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "2b, innovative digital agency",
+  title: "Boweb, innovative digital agency",
   description:
-    "2b, innovative digital agency for brands in products. Design, web development, promotion and analysis. We build brands that sell inside products.",
+    "Boweb, innovative digital agency for brands in products. Design, web development, promotion and analysis. We build brands that sell inside products.",
   openGraph: {
     type: "website",
-    title: "2b, innovative digital agency",
+    title: "Boweb, innovative digital agency",
     description:
       "We build brands that sell inside products. A full cycle digital agency: design, web development, promotion and analysis.",
     locale: "uk_UA",
@@ -76,9 +76,15 @@ export default function RootLayout({
           data={{
             "@context": "https://schema.org",
             "@type": "Organization",
-            name: "2b agency",
+            name: "Boweb",
             url: siteUrl,
-            logo: `${siteUrl}/images/logo.png`,
+            logo: `${siteUrl}/images/logo.svg`,
+            telephone: "+380936098169",
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: "Lviv",
+              addressCountry: "UA",
+            },
           }}
         />
         {children}

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { usePreloader } from "@/hooks/usePreloader";
 
@@ -34,7 +35,15 @@ export function Preloader({ onDone }: { onDone: () => void }) {
   return (
     <div className={`preloader${done ? " is-done" : ""}`} aria-hidden="true">
       <div className="preloader-inner">
-        <div className="preloader-mark">2b</div>
+        <div className="preloader-mark">
+          <Image
+            src="/images/logo-white.svg"
+            alt="Boweb"
+            width={161}
+            height={36}
+            priority
+          />
+        </div>
         <div className="preloader-bar" aria-hidden="true">
           <span className="preloader-bar-fill" style={{ width: `${count}%` }} />
         </div>

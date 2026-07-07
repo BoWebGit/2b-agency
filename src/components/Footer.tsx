@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useHeaderOffsetScroll } from "@/hooks/useHeaderOffsetScroll";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -40,7 +41,12 @@ export function Footer() {
             aria-label={t.nav.backToTop}
             onClick={handleLogoClick}
           >
-            2b
+            <Image
+              src="/images/logo-white.svg"
+              alt="Boweb"
+              width={161}
+              height={36}
+            />
           </Link>
           <p className="footer__tag">{t.footer.tag}</p>
         </div>
@@ -54,7 +60,7 @@ export function Footer() {
       </div>
       <div className="container footer__bottom">
         <span>
-          © <span>{year}</span> 2b agency
+          © <span>{year}</span> Boweb
         </span>
         <span>{t.footer.madeIn}</span>
       </div>

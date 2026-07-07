@@ -14,12 +14,12 @@ export async function generateMetadata({
   const t = translations[locale];
 
   return {
-    title: "2b, innovative digital agency",
+    title: "Boweb, innovative digital agency",
     description: t.metaDescription,
     alternates: buildAlternates(locale, "/"),
     openGraph: {
       type: "website",
-      title: "2b, innovative digital agency",
+      title: "Boweb, innovative digital agency",
       description: t.metaDescription,
       locale: locale === "uk" ? "uk_UA" : "en_US",
     },

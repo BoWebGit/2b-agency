@@ -20,7 +20,7 @@ interface CaseCardProps {
  * Ports a single `.case-card`, now linking through to `/cases/[slug]`
  * instead of the homepage `#contacts` anchor. The `case-N.png` source
  * images do not currently exist on disk - the original's inline
- * `onerror` swaps in a branded gradient fallback with a "2b" wordmark
+ * `onerror` swaps in a branded gradient fallback with a "Boweb" wordmark
  * (`.case-media.case-fallback`); this re-implements that exact fallback
  * via Next/Image's `onError`, no placeholder images invented.
  */

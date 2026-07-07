@@ -51,10 +51,10 @@ export function Header() {
           >
             <Image
               className="logo-img"
-              src="/images/logo.png"
-              alt="2b, Innovative digital agency for brands in products"
-              width={186}
-              height={30}
+              src="/images/logo.svg"
+              alt="Boweb"
+              width={128}
+              height={29}
               priority
             />
           </Link>

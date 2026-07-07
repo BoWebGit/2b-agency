@@ -33,7 +33,7 @@ export function Stats() {
   const { t } = useLanguage();
 
   return (
-    <section className="stats" id="stats" aria-label="2b in numbers">
+    <section className="stats" id="stats" aria-label="Boweb in numbers">
       <div className="container">
         <div className="stats-grid">
           {t.stats.items.map((item) => (

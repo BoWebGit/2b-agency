@@ -14,12 +14,12 @@ export async function generateMetadata({
   const t = translations[locale];
 
   return {
-    title: `${t.casesPage.title} - 2b agency`,
+    title: `${t.casesPage.title} - Boweb`,
     description: t.casesPage.lead,
     alternates: buildAlternates(locale, "/cases"),
     openGraph: {
       type: "website",
-      title: `${t.casesPage.title} - 2b agency`,
+      title: `${t.casesPage.title} - Boweb`,
       description: t.casesPage.lead,
       locale: locale === "uk" ? "uk_UA" : "en_US",
     },

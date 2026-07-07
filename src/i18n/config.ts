@@ -14,7 +14,7 @@ export function localeToLang(locale: Locale): Lang {
   return locale;
 }
 
-export const siteUrl = "https://2b.agency";
+export const siteUrl = "https://boweb.com.ua";
 
 /**
  * Builds an absolute pathname for `path` (e.g. "/cases/foo") in the given

@@ -1,5 +1,5 @@
 /* =================================================================
-   2b, innovative digital agency
+   Boweb, innovative digital agency
    Editorial, light-first, single orange accent. Onest + Inter.
    Built faithfully to DESIGN.md (single source of truth).
    ================================================================= */
@@ -453,7 +453,7 @@ h4 {
   color: var(--orange);
 }
 .logo-img {
-  height: clamp(24px, 2.5vw, 30px);
+  height: clamp(18px, 1.9vw, 22px);
   width: auto;
   display: block;
 }
@@ -1306,7 +1306,7 @@ h4 {
   border-radius: var(--r-card);
   background: var(--bone-deep);
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 3 / 2;
 }
 .case-media img {
   width: 100%;
@@ -1391,7 +1391,7 @@ h4 {
   );
 }
 .case-media.case-fallback::after {
-  content: "2b";
+  content: "Boweb";
   position: absolute;
   right: 1.2rem;
   bottom: 0.9rem;
@@ -1843,17 +1843,13 @@ h4 {
   max-width: 280px;
 }
 .footer__logo {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 48px;
-  letter-spacing: -0.05em;
-  color: var(--white);
-  line-height: 1;
   display: inline-block;
+  line-height: 1;
 }
-.footer__logo::after {
-  content: ".";
-  color: var(--orange);
+.footer__logo img {
+  display: block;
+  width: 125px;
+  height: 28px;
 }
 .footer__tag {
   color: var(--white-70);
@@ -1920,16 +1916,12 @@ h4 {
   width: min(280px, 60vw);
 }
 .preloader-mark {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(3.2rem, 10vw, 64px);
-  color: var(--white);
-  letter-spacing: -0.04em;
-  line-height: 1;
+  display: flex;
+  justify-content: center;
 }
-.preloader-mark::after {
-  content: ".";
-  color: var(--orange);
+.preloader-mark img {
+  width: clamp(90px, 22vw, 150px);
+  height: auto;
 }
 .preloader-bar {
   height: 3px;
@@ -2706,7 +2698,7 @@ body.cursor-active select {
 }
 .case-detail-media .case-media {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 3 / 2;
   border-radius: var(--r-card);
 }
 .case-detail-meta {

@@ -76,11 +76,11 @@ export function Contacts() {
           </Reveal>
 
           <Reveal as="div" className="contacts__info">
-            <a href="mailto:hello@2b.agency" className="contacts__item">
-              hello@2b.agency
+            <a href="mailto:hello@boweb.com.ua" className="contacts__item">
+              hello@boweb.com.ua
             </a>
-            <a href="tel:+380670000000" className="contacts__item">
-              +380 67 000 00 00
+            <a href="tel:+380936098169" className="contacts__item">
+              +38 093 609 81 69
             </a>
             <span className="contacts__item contacts__item--muted">
               {t.contacts.location}
