@@ -13,12 +13,14 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  * floating-label form. Validation + success state mirror script.js
  * section "9. CONTACT FORM" exactly - no backend, just preventDefault.
  */
+type Status = "idle" | "sending" | "success" | "error";
+
 export function Contacts() {
   const { t } = useLanguage();
   const [invalid, setInvalid] = useState<Record<string, boolean>>({});
-  const [success, setSuccess] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const fields = ["name", "email", "message"] as const;
@@ -50,8 +52,27 @@ export function Contacts() {
       return;
     }
 
-    setSuccess(true);
-    form.reset();
+    const payload = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      budget: (form.elements.namedItem("budget") as HTMLInputElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement)
+        .value,
+    };
+
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(`status ${res.status}`);
+      setStatus("success");
+      form.reset();
+    } catch {
+      setStatus("error");
+    }
   }
 
   function clearInvalid(name: string) {
@@ -149,14 +170,26 @@ export function Contacts() {
           <button
             type="submit"
             className="btn btn-primary btn-block contacts__submit"
+            disabled={status === "sending"}
           >
-            <span>{t.contacts.submit}</span>
+            <span>
+              {status === "sending" ? t.contacts.sending : t.contacts.submit}
+            </span>
             <span className="btn-ico" aria-hidden="true">
               <ArrowIcon />
             </span>
           </button>
-          <p className={`form__note${success ? " is-success" : ""}`}>
-            {success ? t.contacts.success : t.contacts.note}
+          <p
+            className={`form__note${status === "success" ? " is-success" : ""}${
+              status === "error" ? " is-error" : ""
+            }`}
+            role={status === "error" ? "alert" : undefined}
+          >
+            {status === "success"
+              ? t.contacts.success
+              : status === "error"
+                ? t.contacts.error
+                : t.contacts.note}
           </p>
         </Reveal>
       </div>

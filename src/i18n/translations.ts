@@ -141,6 +141,20 @@ export const translations = {
       all: "Всі cases",
       items: [
         {
+          slug: "bropicer",
+          url: "https://bropicer.vercel.app",
+          img: "/images/case-bropicer.jpg",
+          cat: "Дизайн, розробка",
+          title: "BROPICER",
+          alt: "BROPICER, крафтова пивоварня — дизайн і розробка сайту",
+          categories: ["design", "webdev"],
+          platform: "Vanilla (HTML/CSS/JS)",
+          design: "Власний дизайн",
+          roles: ["Дизайн", "Розробка", "Деплой"],
+          description:
+            "Промо-сайт крафтової пивоварні: чорно-біла естетика, велика типографіка й макрозйомка пляшки. Дизайн, верстка та деплой на Vercel.",
+        },
+        {
           slug: "ostero-gloves",
           url: "https://www.ostero-gloves.com/",
           img: "/images/case-2.png",
@@ -486,6 +500,8 @@ export const translations = {
       submit: "Надіслати заявку",
       note: "Натискаючи кнопку, ви погоджуєтесь з політикою конфіденційності.",
       success: "Дякуємо! Ми звʼяжемося з вами протягом 24 годин.",
+      sending: "Надсилаємо…",
+      error: "Не вдалося надіслати. Спробуйте ще раз або напишіть на hello@boweb.com.ua.",
     },
 
     footer: {
@@ -627,6 +643,20 @@ export const translations = {
       title: "Selected work",
       all: "All cases",
       items: [
+        {
+          slug: "bropicer",
+          url: "https://bropicer.vercel.app",
+          img: "/images/case-bropicer.jpg",
+          cat: "Design, development",
+          title: "BROPICER",
+          alt: "BROPICER, craft brewery — website design and development",
+          categories: ["design", "webdev"],
+          platform: "Vanilla (HTML/CSS/JS)",
+          design: "Custom design",
+          roles: ["Design", "Development", "Deploy"],
+          description:
+            "Promo site for a craft brewery: black-and-white aesthetic, oversized typography and macro bottle shots. Design, build and deploy on Vercel.",
+        },
         {
           slug: "ostero-gloves",
           url: "https://www.ostero-gloves.com/",
@@ -973,6 +1003,8 @@ export const translations = {
       submit: "Send request",
       note: "By clicking the button you agree to the privacy policy.",
       success: "Thank you! We'll get back to you within 24 hours.",
+      sending: "Sending…",
+      error: "Could not send. Please try again or email hello@boweb.com.ua.",
     },
 
     footer: {

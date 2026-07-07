@@ -447,6 +447,7 @@ h4 {
   align-items: center;
   line-height: 1;
   flex-shrink: 0;
+  margin-left: 10px;
   color: var(--charcoal);
 }
 .logo .b {
@@ -692,6 +693,16 @@ h4 {
   max-width: 100%;
   max-height: min(84vh, 860px);
   object-fit: contain;
+  transform-origin: center center;
+  will-change: transform, filter;
+}
+/* Hero figure enters with a fade + zoom, layered on the shared data-reveal
+   fade-up. The scoped [data-reveal] selector out-specifies the global
+   translateY-only rule; the global `.in` reset (transform: none) still wins
+   once revealed. Interactive cursor/scroll motion (useHeroFigure) then owns
+   the inner image's transform - a separate element, so no conflict here. */
+.hero-art[data-reveal] {
+  transform: translateY(28px) scale(0.9);
 }
 @media (prefers-reduced-motion: no-preference) {
   [data-float] {
@@ -1778,6 +1789,10 @@ h4 {
   width: 100%;
   margin-top: 6px;
 }
+.contacts__submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
 .form__note {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.4);
@@ -1785,6 +1800,10 @@ h4 {
 }
 .form__note.is-success {
   color: var(--orange);
+  font-weight: 500;
+}
+.form__note.is-error {
+  color: #ff6b6b;
   font-weight: 500;
 }
 
@@ -2192,6 +2211,19 @@ body.cursor-active select {
   }
   .header-actions {
     margin-left: auto;
+  }
+
+  /* section heads: on desktop these are a title-left / sub-or-button-right
+     row (space-between). On a phone that row squeezes the display title and
+     its side element into one cramped line - stack them instead, title on
+     top and the sub/link/button directly beneath it, left-aligned. */
+  .services-head,
+  .cases-head,
+  .price-head,
+  .blog-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(0.9rem, 3.5vw, 1.5rem);
   }
 
   /* the desktop hero locks to a fixed viewport-ish height and vertically

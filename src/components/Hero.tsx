@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useHeaderOffsetScroll } from "@/hooks/useHeaderOffsetScroll";
-import { useHeroParallax } from "@/hooks/useHeroParallax";
+import { useHeroFigure } from "@/hooks/useHeroFigure";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { useCalculator } from "./CalculatorProvider";
@@ -19,7 +19,7 @@ export function Hero({ heroRevealed }: { heroRevealed: boolean }) {
   const { t } = useLanguage();
   const handleAnchorClick = useHeaderOffsetScroll();
   const { openCalculator } = useCalculator();
-  const parallaxRef = useHeroParallax<HTMLDivElement>();
+  const figureRef = useHeroFigure<HTMLImageElement>();
   const reducedMotion = useReducedMotion();
   const [imgError, setImgError] = useState(false);
   const revealRefs = useRef<Array<HTMLElement | null>>([]);
@@ -101,14 +101,7 @@ export function Hero({ heroRevealed }: { heroRevealed: boolean }) {
           </div>
         </div>
 
-        <div
-          className="hero-art"
-          data-reveal
-          ref={(el) => {
-            setRevealRef(3)(el);
-            parallaxRef.current = el;
-          }}
-        >
+        <div className="hero-art" data-reveal ref={setRevealRef(3)}>
           {!imgError ? (
             <Image
               className="hero-art-img"
@@ -117,6 +110,7 @@ export function Hero({ heroRevealed }: { heroRevealed: boolean }) {
               width={721}
               height={880}
               priority
+              ref={figureRef}
               onError={() => setImgError(true)}
             />
           ) : (
