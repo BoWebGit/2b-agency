@@ -110,6 +110,7 @@ export function Hero({ heroRevealed }: { heroRevealed: boolean }) {
               width={721}
               height={880}
               priority
+              sizes="(max-width: 768px) 82vw, (max-width: 1200px) 45vw, 700px"
               ref={figureRef}
               onError={() => setImgError(true)}
             />

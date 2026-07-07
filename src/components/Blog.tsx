@@ -26,14 +26,12 @@ export function Blog() {
           />
           <Link
             href={localizedPath(lang, "/news")}
-            className="btn btn-outline blog-all"
+            className="text-link"
             data-reveal=""
             ref={allPostsRevealRef}
           >
             <span>{t.blog.all}</span>
-            <span className="btn-ico" aria-hidden="true">
-              <ArrowIcon />
-            </span>
+            <ArrowIcon width={18} height={18} />
           </Link>
         </header>
 
@@ -82,6 +80,7 @@ function BlogPostCard({
           width={400}
           height={300}
           loading="lazy"
+          sizes="(max-width: 768px) 90vw, (max-width: 1200px) 45vw, 380px"
         />
       </div>
       <div className="post__meta">

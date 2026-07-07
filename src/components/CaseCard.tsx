@@ -46,6 +46,7 @@ export function CaseCard({
             width={width}
             height={height}
             loading="lazy"
+            sizes="(max-width: 768px) 90vw, 760px"
             onError={() => setFailed(true)}
           />
         )}

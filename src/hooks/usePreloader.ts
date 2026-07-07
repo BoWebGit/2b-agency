@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "./useReducedMotion";
 
 /**
- * Ports script.js section "2. PRELOADER": counts 0->100 over ~1.4s via rAF
+ * Ports script.js section "2. PRELOADER": counts 0->100 over ~0.8s via rAF
  * (easeOutQuad), then signals `done` so the curtain can slide up and the
  * hero text reveal can fire. Reduced motion skips straight to the end.
  */
@@ -27,7 +27,7 @@ export function usePreloader() {
       return;
     }
 
-    const duration = 1400;
+    const duration = 800;
     let start: number | null = null;
     let rafId = 0;
     let holdTimeout = 0;

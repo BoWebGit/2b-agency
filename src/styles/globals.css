@@ -1557,9 +1557,6 @@ h4 {
   z-index: 2;
   padding-block: var(--section-y);
 }
-.blog-all {
-  align-self: flex-end;
-}
 /* Blog post grid (ported from 2b) */
 .blog__grid {
   display: grid;
