@@ -9,6 +9,7 @@
     "lint": "biome check ."
   },
   "dependencies": {
+    "@next/third-parties": "^16.2.10",
     "next": "^16.2.9",
     "nodemailer": "^9.0.3",
     "react": "19.1.0",

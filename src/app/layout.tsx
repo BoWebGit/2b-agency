@@ -1,8 +1,12 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata, Viewport } from "next";
 import { Inter, Onest } from "next/font/google";
 import "@/styles/globals.css";
 import { JsonLd } from "@/components/JsonLd";
 import { siteUrl } from "@/i18n/config";
+
+/** GA4 Measurement ID (G-XXXXXXXXXX); analytics is only injected when set. */
+const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
 const onest = Onest({
   subsets: ["latin", "cyrillic"],
@@ -98,6 +102,7 @@ export default function RootLayout({
         />
         {children}
       </body>
+      {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
     </html>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { sendGAEvent } from "@next/third-parties/google";
 import { type FormEvent, useState } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { ArrowIcon } from "./icons";
@@ -69,6 +70,8 @@ export function Contacts() {
       });
       if (!res.ok) throw new Error(`status ${res.status}`);
       setStatus("success");
+      // GA4 lead conversion (no-ops if analytics isn't loaded)
+      sendGAEvent("event", "generate_lead", { method: "contact_form" });
       form.reset();
     } catch {
       setStatus("error");
