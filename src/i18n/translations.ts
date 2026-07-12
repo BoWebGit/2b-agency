@@ -503,6 +503,8 @@ export const translations = {
       success: "Дякуємо! Ми звʼяжемося з вами протягом 24 годин.",
       sending: "Надсилаємо…",
       error: "Не вдалося надіслати. Спробуйте ще раз або напишіть на hello@boweb.com.ua.",
+      thanksTitle: "Дякуємо!",
+      thanksClose: "Закрити",
     },
 
     footer: {
@@ -1007,6 +1009,8 @@ export const translations = {
       success: "Thank you! We'll get back to you within 24 hours.",
       sending: "Sending…",
       error: "Could not send. Please try again or email hello@boweb.com.ua.",
+      thanksTitle: "Thank you!",
+      thanksClose: "Close",
     },
 
     footer: {

@@ -1769,6 +1769,7 @@ h4 {
 .field textarea:focus {
   outline: none;
   border-bottom-color: var(--orange);
+  border-radius: 0;
 }
 .field input:focus + label,
 .field input:not(:placeholder-shown) + label,

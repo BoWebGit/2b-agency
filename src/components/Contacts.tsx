@@ -1,9 +1,10 @@
 "use client";
 
 import { sendGAEvent } from "@next/third-parties/google";
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import { ArrowIcon } from "./icons";
+import { ArrowIcon, CheckIcon, CloseIcon } from "./icons";
 import { Reveal } from "./Reveal";
 import { SplitHeading } from "./SplitHeading";
 
@@ -20,6 +21,26 @@ export function Contacts() {
   const { t } = useLanguage();
   const [invalid, setInvalid] = useState<Record<string, boolean>>({});
   const [status, setStatus] = useState<Status>("idle");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const thanksOpen = status === "success";
+
+  useEffect(() => {
+    document.body.style.overflow = thanksOpen ? "hidden" : "";
+  }, [thanksOpen]);
+
+  useEffect(() => {
+    if (!thanksOpen) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setStatus("idle");
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [thanksOpen]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -112,7 +133,11 @@ export function Contacts() {
           </Reveal>
 
           <Reveal as="div" className="contacts__social">
-            <a href="#" rel="noopener">
+            <a
+              href="https://www.instagram.com/boweb.com.ua/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Instagram
             </a>
             <a href="#" rel="noopener">
@@ -183,19 +208,61 @@ export function Contacts() {
             </span>
           </button>
           <p
-            className={`form__note${status === "success" ? " is-success" : ""}${
-              status === "error" ? " is-error" : ""
-            }`}
+            className={`form__note${status === "error" ? " is-error" : ""}`}
             role={status === "error" ? "alert" : undefined}
           >
-            {status === "success"
-              ? t.contacts.success
-              : status === "error"
-                ? t.contacts.error
-                : t.contacts.note}
+            {status === "error" ? t.contacts.error : t.contacts.note}
           </p>
         </Reveal>
       </div>
+      {mounted &&
+        createPortal(
+          <div
+            className={`service-modal-overlay${thanksOpen ? " open" : ""}`}
+            aria-hidden={!thanksOpen}
+            onMouseDown={(e) => {
+              if (e.target === e.currentTarget) setStatus("idle");
+            }}
+          >
+            <div
+              className="service-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-label={t.contacts.thanksTitle}
+            >
+              <button
+                type="button"
+                className="service-modal-close"
+                aria-label="Закрити"
+                onClick={() => setStatus("idle")}
+              >
+                <CloseIcon />
+              </button>
+              {thanksOpen && (
+                <div className="service-modal-thanks">
+                  <span
+                    className="service-modal-thanks-icon"
+                    aria-hidden="true"
+                  >
+                    <CheckIcon />
+                  </span>
+                  <h3 className="service-modal-title">
+                    {t.contacts.thanksTitle}
+                  </h3>
+                  <p className="service-modal-desc">{t.contacts.success}</p>
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-block"
+                    onClick={() => setStatus("idle")}
+                  >
+                    <span>{t.contacts.thanksClose}</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>,
+          document.body,
+        )}
     </section>
   );
 }
