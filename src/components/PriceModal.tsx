@@ -17,6 +17,8 @@ interface PriceModalProps {
   onClose: () => void;
 }
 
+type Status = "idle" | "sending" | "success" | "error";
+
 /**
  * Popup shown when a price tier's CTA is clicked: a short request form
  * scoped to that plan, instead of just scrolling to the shared contact
@@ -29,7 +31,7 @@ export function PriceModal({ tier, onClose }: PriceModalProps) {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const lastFocused = useRef<HTMLElement | null>(null);
   const [invalid, setInvalid] = useState<Record<string, boolean>>({});
-  const [success, setSuccess] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -49,7 +51,7 @@ export function PriceModal({ tier, onClose }: PriceModalProps) {
   }, [open]);
 
   useEffect(() => {
-    if (!open) setSuccess(false);
+    if (!open) setStatus("idle");
   }, [open]);
 
   useEffect(() => {
@@ -79,7 +81,7 @@ export function PriceModal({ tier, onClose }: PriceModalProps) {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, onClose]);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const fields = ["name", "email"] as const;
@@ -108,8 +110,33 @@ export function PriceModal({ tier, onClose }: PriceModalProps) {
       return;
     }
 
-    setSuccess(true);
-    form.reset();
+    const messageInput = form.elements.namedItem(
+      "message",
+    ) as HTMLTextAreaElement | null;
+    const message =
+      messageInput?.value.trim() ||
+      `Заявка з тарифу «${tier?.name}» (${tier?.price})`;
+
+    const payload = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      budget: tier?.name ?? "",
+      message,
+    };
+
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(`status ${res.status}`);
+      setStatus("success");
+      form.reset();
+    } catch {
+      setStatus("error");
+    }
   }
 
   function clearInvalid(name: string) {
@@ -141,7 +168,7 @@ export function PriceModal({ tier, onClose }: PriceModalProps) {
         >
           <CloseIcon />
         </button>
-        {tier && success && (
+        {tier && status === "success" && (
           <div className="service-modal-thanks">
             <span className="service-modal-thanks-icon" aria-hidden="true">
               <CheckIcon />
@@ -157,7 +184,7 @@ export function PriceModal({ tier, onClose }: PriceModalProps) {
             </button>
           </div>
         )}
-        {tier && !success && (
+        {tier && status !== "success" && (
           <>
             <span className="service-modal-idx">{t.price.requestFor}</span>
             <h3 className="service-modal-title">{tier.name}</h3>
@@ -195,13 +222,24 @@ export function PriceModal({ tier, onClose }: PriceModalProps) {
                 />
                 <label htmlFor="pf-message">{t.contacts.messageLabel}</label>
               </div>
-              <button type="submit" className="btn btn-primary btn-block">
-                <span>{t.contacts.submit}</span>
+              <button
+                type="submit"
+                className="btn btn-primary btn-block"
+                disabled={status === "sending"}
+              >
+                <span>
+                  {status === "sending" ? t.contacts.sending : t.contacts.submit}
+                </span>
                 <span className="btn-ico" aria-hidden="true">
                   <ArrowIcon />
                 </span>
               </button>
-              <p className="form__note">{t.contacts.note}</p>
+              <p
+                className={`form__note${status === "error" ? " is-error" : ""}`}
+                role={status === "error" ? "alert" : undefined}
+              >
+                {status === "error" ? t.contacts.error : t.contacts.note}
+              </p>
             </form>
           </>
         )}

@@ -37,7 +37,9 @@ export function CalculatorModal({ open, onClose }: CalculatorModalProps) {
   const [featureSet, setFeatureSet] = useState<Set<number>>(new Set());
   const [timelineIdx, setTimelineIdx] = useState<number | null>(null);
   const [invalid, setInvalid] = useState<Record<string, boolean>>({});
-  const [success, setSuccess] = useState(false);
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
 
   useEffect(() => {
     setMounted(true);
@@ -65,7 +67,7 @@ export function CalculatorModal({ open, onClose }: CalculatorModalProps) {
     setFeatureSet(new Set());
     setTimelineIdx(null);
     setInvalid({});
-    setSuccess(false);
+    setStatus("idle");
   }, [open]);
 
   useEffect(() => {
@@ -134,7 +136,7 @@ export function CalculatorModal({ open, onClose }: CalculatorModalProps) {
   const total = roundTo((base + pagesAdd + featuresAdd) * mult, 50);
   const totalHigh = roundTo(total * 1.15, 50);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const fields = ["name", "email"] as const;
@@ -163,8 +165,38 @@ export function CalculatorModal({ open, onClose }: CalculatorModalProps) {
       return;
     }
 
-    setSuccess(true);
-    form.reset();
+    const featureNames = [...featureSet]
+      .map((idx) => t.calculator.features[idx]?.name)
+      .filter(Boolean);
+    const messageLines = [
+      "Заявка з калькулятора проєкту:",
+      typeIdx !== null ? `Тип сайту: ${t.calculator.siteTypes[typeIdx]!.name}` : null,
+      pageIdx !== null ? `Кількість сторінок: ${t.calculator.pageCounts[pageIdx]!.name}` : null,
+      featureNames.length ? `Додаткові функції: ${featureNames.join(", ")}` : null,
+      timelineIdx !== null ? `Терміни: ${t.calculator.timelines[timelineIdx]!.name}` : null,
+      `Орієнтовна вартість: $${total.toLocaleString("en-US")} - $${totalHigh.toLocaleString("en-US")}`,
+    ].filter((l): l is string => l !== null);
+
+    const payload = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      budget: `$${total.toLocaleString("en-US")} - $${totalHigh.toLocaleString("en-US")}`,
+      message: messageLines.join("\n"),
+    };
+
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(`status ${res.status}`);
+      setStatus("success");
+      form.reset();
+    } catch {
+      setStatus("error");
+    }
   }
 
   if (!mounted) return null;
@@ -193,7 +225,7 @@ export function CalculatorModal({ open, onClose }: CalculatorModalProps) {
           <CloseIcon />
         </button>
 
-        {success ? (
+        {status === "success" ? (
           <div className="service-modal-thanks">
             <span className="service-modal-thanks-icon" aria-hidden="true">
               <CheckIcon />
@@ -359,13 +391,26 @@ export function CalculatorModal({ open, onClose }: CalculatorModalProps) {
                     />
                     <label htmlFor="calc-email">{t.contacts.emailLabel}</label>
                   </div>
-                  <button type="submit" className="btn btn-primary btn-block">
-                    <span>{t.calculator.submit}</span>
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-block"
+                    disabled={status === "sending"}
+                  >
+                    <span>
+                      {status === "sending"
+                        ? t.contacts.sending
+                        : t.calculator.submit}
+                    </span>
                     <span className="btn-ico" aria-hidden="true">
                       <ArrowIcon />
                     </span>
                   </button>
-                  <p className="form__note">{t.contacts.note}</p>
+                  <p
+                    className={`form__note${status === "error" ? " is-error" : ""}`}
+                    role={status === "error" ? "alert" : undefined}
+                  >
+                    {status === "error" ? t.contacts.error : t.contacts.note}
+                  </p>
                 </form>
               </>
             )}
