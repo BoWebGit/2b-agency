@@ -23,6 +23,56 @@ function str(v: unknown): string {
   return typeof v === "string" ? v.trim() : "";
 }
 
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+/**
+ * Best-effort Telegram notification - runs alongside email, never blocks
+ * or fails the form submission. Missing env vars just skip it silently
+ * (so local dev without Telegram configured still works).
+ */
+async function notifyTelegram(params: {
+  name: string;
+  email: string;
+  budget: string;
+  message: string;
+}) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return;
+
+  const { name, email, budget, message } = params;
+  const lines = [
+    "📩 <b>Нова заявка з сайту</b>",
+    `<b>Імʼя:</b> ${escapeHtml(name)}`,
+    `<b>Email:</b> ${escapeHtml(email)}`,
+    budget ? `<b>Бюджет:</b> ${escapeHtml(budget)}` : null,
+    "",
+    escapeHtml(message),
+  ].filter((l) => l !== null);
+
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: lines.join("\n"),
+        parse_mode: "HTML",
+      }),
+    });
+    if (!res.ok) {
+      console.error("[contact] telegram notify failed:", await res.text());
+    }
+  } catch (err) {
+    console.error("[contact] telegram notify failed:", err);
+  }
+}
+
 export async function POST(request: NextRequest) {
   let body: Payload;
   try {
@@ -86,6 +136,11 @@ export async function POST(request: NextRequest) {
     console.error("[contact] sendMail failed:", err);
     return NextResponse.json({ ok: false, error: "send" }, { status: 502 });
   }
+
+  // Best-effort - errors are logged inside notifyTelegram, never thrown.
+  // Awaited (not fire-and-forget) because serverless functions can freeze
+  // background work once the response is sent.
+  await notifyTelegram({ name, email, budget, message });
 
   return NextResponse.json({ ok: true });
 }
