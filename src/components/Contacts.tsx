@@ -124,7 +124,13 @@ export function Contacts() {
             <a href="mailto:hello@boweb.com.ua" className="contacts__item">
               hello@boweb.com.ua
             </a>
-            <a href="tel:+380936098169" className="contacts__item">
+            <a
+              href="tel:+380936098169"
+              className="contacts__item"
+              onClick={() =>
+                sendGAEvent("event", "generate_lead", { method: "phone_click" })
+              }
+            >
               +38 093 609 81 69
             </a>
             <span className="contacts__item contacts__item--muted">

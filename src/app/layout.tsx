@@ -88,16 +88,19 @@ export default function RootLayout({
           id="organization-jsonld"
           data={{
             "@context": "https://schema.org",
-            "@type": "Organization",
+            "@type": ["Organization", "ProfessionalService"],
             name: "Boweb",
             url: siteUrl,
             logo: `${siteUrl}/images/logo.svg`,
+            image: `${siteUrl}/og.png`,
             telephone: "+380936098169",
             address: {
               "@type": "PostalAddress",
               addressLocality: "Lviv",
               addressCountry: "UA",
             },
+            areaServed: ["Lviv", "UA"],
+            sameAs: ["https://www.instagram.com/boweb.com.ua/"],
           }}
         />
         {children}
