@@ -3,12 +3,62 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
 import { localizedPath } from "@/i18n/config";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { CustomCursor } from "./CustomCursor";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { ArrowIcon } from "./icons";
+
+/**
+ * Article bodies live in `translations.ts` as plain string arrays. A tiny prefix
+ * syntax keeps them readable there: "## "/"### " lines become subheadings and
+ * consecutive "- " lines group into one bullet list. Everything else is a paragraph.
+ */
+function renderBody(body: readonly string[]): ReactNode[] {
+  const blocks: ReactNode[] = [];
+  let bullets: string[] = [];
+
+  function flushBullets(key: number) {
+    if (bullets.length === 0) return;
+    blocks.push(
+      <ul className="news-article-list" key={`list-${key}`}>
+        {bullets.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>,
+    );
+    bullets = [];
+  }
+
+  body.forEach((line, i) => {
+    if (line.startsWith("- ")) {
+      bullets.push(line.slice(2));
+      return;
+    }
+    flushBullets(i);
+
+    if (line.startsWith("### ")) {
+      blocks.push(
+        <h3 className="news-article-h3" key={i}>
+          {line.slice(4)}
+        </h3>,
+      );
+    } else if (line.startsWith("## ")) {
+      blocks.push(
+        <h2 className="news-article-h2" key={i}>
+          {line.slice(3)}
+        </h2>,
+      );
+    } else {
+      blocks.push(<p key={i}>{line}</p>);
+    }
+  });
+  flushBullets(body.length);
+
+  return blocks;
+}
 
 /** /news/[slug]: single article - image, title, body, then prev/next nav (wraps around at the ends). */
 export function NewsArticleContent({ slug }: { slug: string }) {
@@ -54,9 +104,7 @@ export function NewsArticleContent({ slug }: { slug: string }) {
           </div>
 
           <div className="container news-article-body">
-            {article.body.map((paragraph, i) => (
-              <p key={i}>{paragraph}</p>
-            ))}
+            {renderBody(article.body)}
           </div>
         </article>
 

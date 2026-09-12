@@ -2615,6 +2615,45 @@ body.cursor-active select {
   line-height: 1.7;
   color: var(--charcoal-80);
 }
+.news-article-h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--charcoal);
+  margin-top: 1.2rem;
+}
+.news-article-h3 {
+  font-weight: 600;
+  font-size: clamp(1.05rem, 0.98rem + 0.35vw, 1.2rem);
+  line-height: 1.35;
+  color: var(--charcoal);
+  margin-top: 0.6rem;
+}
+.news-article-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding-left: 1.1rem;
+  list-style: none;
+}
+.news-article-list li {
+  position: relative;
+  font-size: var(--fs-body);
+  line-height: 1.7;
+  color: var(--charcoal-80);
+}
+.news-article-list li::before {
+  content: "";
+  position: absolute;
+  left: -1.1rem;
+  top: 0.72em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--orange);
+}
 
 .news-article-nav {
   display: grid;
