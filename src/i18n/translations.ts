@@ -142,6 +142,20 @@ export const translations = {
       all: "Всі cases",
       items: [
         {
+          slug: "nuelle-nue",
+          url: "https://nuelle.com.ua/",
+          img: "/images/case-nuelle.jpg",
+          cat: "Дизайн, WordPress, SEO",
+          title: "Nuelle&Nue",
+          alt: "Nuelle&Nue, інтернет-магазин жіночої білизни на WordPress",
+          categories: ["wordpress", "design", "webdev", "seo"],
+          platform: "WordPress + WooCommerce",
+          design: "Власний дизайн",
+          roles: ["Дизайн", "Розробка", "SEO", "Деплой"],
+          description:
+            "Інтернет-магазин жіночої білизни: кастомна тема WordPress на WooCommerce, каталог на 300+ моделей, швидке додавання в кошик і розмірна сітка. Дизайн, розробка, SEO та запуск.",
+        },
+        {
           slug: "bropicer",
           url: "https://bropicer.vercel.app",
           img: "/images/case-bropicer.jpg",
@@ -693,6 +707,20 @@ export const translations = {
       title: "Selected work",
       all: "All cases",
       items: [
+        {
+          slug: "nuelle-nue",
+          url: "https://nuelle.com.ua/",
+          img: "/images/case-nuelle.jpg",
+          cat: "Design, WordPress, SEO",
+          title: "Nuelle&Nue",
+          alt: "Nuelle&Nue, lingerie online store built on WordPress",
+          categories: ["wordpress", "design", "webdev", "seo"],
+          platform: "WordPress + WooCommerce",
+          design: "In-house design",
+          roles: ["Design", "Development", "SEO", "Deployment"],
+          description:
+            "Lingerie online store: a custom WordPress theme on WooCommerce, a catalogue of 300+ products, quick add-to-cart and a size guide. Design, build, SEO and launch.",
+        },
         {
           slug: "bropicer",
           url: "https://bropicer.vercel.app",
